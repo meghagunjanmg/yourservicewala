@@ -39,6 +39,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.5
+  flutter_svg_image: ^1.1.0+1
   flutter_launcher_icons: ^0.13.1
   http: ^0.13.6
   fluttertoast: ^8.2.2
@@ -48,6 +49,11 @@ dependencies:
   flutter_calendar_carousel: ^2.4.2
   image_picker: ^0.8.7
   table: ^0.0.1-dev
+  loading_animation_widget: ^1.2.0+4
+  pdf: ^3.7.0  # Check for the latest version on pub.dev
+  permission_handler: ^10.2.1	# Check for the latest version on pub.dev
+  path_provider: ^2.1.0
+  excel: ^2.0.4
 
 
 flutter_launcher_icons:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yourservicewala/constant/CustomWidget.dart';
+
+import '../constant/ColorConstants.dart';
 
 class ChangePasswordWidget extends StatefulWidget {
   @override
@@ -22,11 +23,14 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            customWidget.buildTextField('Old Password', _oldPasswordController, Icons.lock),
-            customWidget.buildTextField('New Password', _newPasswordController, Icons.lock_outline),
-            customWidget.buildTextField('Confirm Password', _confirmPasswordController, Icons.lock_open),
+            customWidget.buildTextField(context,'Old Password', _oldPasswordController, Icons.lock),
+            customWidget.buildTextField(context,'New Password', _newPasswordController, Icons.lock_outline),
+            customWidget.buildTextField(context,'Confirm Password', _confirmPasswordController, Icons.lock_open),
             SizedBox(height: 16),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.darkBlueTheme, // Change the background color here
+              ),
               onPressed: _onChangePassword,
               child: Text('Change Password'),
             ),

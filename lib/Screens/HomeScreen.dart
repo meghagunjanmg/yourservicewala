@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg_image/flutter_svg_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +17,7 @@ import 'Dashboard.dart';
 import 'EditProfileWidget.dart';
 import 'KYCUpload.dart';
 import 'Packages.dart';
+import 'ReferalsDetail.dart';
 import 'RewardScreen.dart';
 import 'ViewTicketWidget.dart';
 
@@ -158,9 +161,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Text('Profile',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.contact_page,
+                      radius: 20,
+                      child: SvgPicture.asset(
+                        'assets/Profile.svg', // Replace with your SVG asset path
+                        width: 25,
+                        height: 25,
                         color: Colors.white,
+                        fit: BoxFit.fitHeight,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
                     ),
@@ -243,8 +250,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Text('Add Car',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.car_crash,
+                      radius: 20,
+                      child: SvgPicture.asset(
+                        'assets/car.svg', // Replace with your SVG asset path
+                        width: 25,
+                        height: 25,
                         color: Colors.white,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
@@ -286,8 +296,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Text('Calender',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.calendar_month,
+                      radius: 20,
+                      child: SvgPicture.asset(
+                        'assets/calender.svg', // Replace with your SVG asset path
+                        width: 25,
+                        height: 25,
                         color: Colors.white,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
@@ -325,11 +338,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   ListTile(
-                    title: Text('Rewards and referals',style: TextStyle(color: Colors.white,fontSize:18),),
+                    title: Text('Rewards',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.diamond,
+                      radius: 20,
+                      child: SvgPicture.asset(
+                        'assets/Reward-2.svg', // Replace with your SVG asset path
+                        width: 25,
+                        height: 25,
                         color: Colors.white,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
@@ -356,11 +372,60 @@ class _HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   ListTile(
+                    title: Text('Referrals',style: TextStyle(color: Colors.white,fontSize:18),),
+                    leading:
+                    CircleAvatar(
+                      radius: 20,
+                      child: SvgPicture.asset(
+                        'assets/Reward-2.svg', // Replace with your SVG asset path
+                        width: 25,
+                        height: 25,
+                        color: Colors.white,
+                      ),
+                      backgroundColor: ColorConstants.darkBlueTheme,
+                    ),
+
+                    onTap: () {
+                      // Handle drawer item 1 tap
+                      Navigator.pop(context);
+
+                      Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                              pageBuilder: (context, animation, secondaryAnimation) => ReferalsDetailWidget(),
+                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                var begin = 0.0;
+                                var end = 1.0;
+                                var curve = Curves.easeInOut;
+                                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                return ScaleTransition(
+                                  scale: animation.drive(tween),
+                                  child: child,
+                                );}));
+
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Divider(
+                      color: Colors.black,
+                      thickness: 1.5,
+                    ),
+                  ),
+
+                ],
+              ),
+
+              Column(
+                children: [
+                  ListTile(
                     title: Text('Add Ticket',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.support_agent,
+                      child: SvgPicture.asset(
+                        'assets/Ticket-2.svg', // Replace with your SVG asset path
+                        width: 25,
+                        height: 25,
                         color: Colors.white,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
@@ -400,8 +465,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Text('View Ticket',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.support_agent,
+                      radius: 20,
+                      child: SvgPicture.asset(
+                        'assets/Ticket-2.svg', // Replace with your SVG asset path
+                        width: 25,
+                        height: 25,
                         color: Colors.white,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
@@ -442,9 +510,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Text('Settings',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.settings,
-                        color: Colors.white,
+                      child:SvgPicture.asset(
+                        'assets/Setting.svg', // Replace with your SVG asset path
+                        width: 100,
+                        height: 100,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
                     ),
@@ -473,13 +542,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Text('Logout',style: TextStyle(color: Colors.white,fontSize:18),),
                     leading:
                     CircleAvatar(
-                      child: Icon(
-                        Icons.logout,
-                        color: Colors.white,
+                      child: SvgPicture.asset(
+                        'assets/Logout.svg', // Replace with your SVG asset path
+                        width: 100,
+                        height: 100,
                       ),
                       backgroundColor: ColorConstants.darkBlueTheme,
                     ),
-                    onTap: () async {
+                  onTap: () async {
                       // Handle drawer item 1 tap
                       final SharedPreferences prefs = await SharedPreferences.getInstance();
                       await prefs.setBool('is_login', false);
@@ -488,8 +558,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.pop(context);
 
                       Restart.restartApp();
-
-
                     },
                   ),
                   Padding(
@@ -542,20 +610,28 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _onTabTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: ImageIcon(SvgImage.asset(
+              'assets/Dashboard-2.svg',
+            )),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon:ImageIcon(SvgImage.asset(
+              'assets/Subcriptions-2.svg',
+            )),
+            label: 'Subscriptions',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
+            icon: ImageIcon(SvgImage.asset(
+              'assets/Reward-2.svg',
+            )),
+            label: 'Rewards',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings,color: Colors.blue,),
-            label:"Setting",
+            icon: ImageIcon(SvgImage.asset(
+              'assets/Ticket-2.svg',
+            )),
+            label:"Ticket",
           ),
         ],
       ),

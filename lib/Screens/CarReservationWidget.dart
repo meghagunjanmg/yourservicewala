@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_carousel/classes/marked_date.dart';
+import 'package:flutter_calendar_carousel/classes/multiple_marked_dates.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+
+import '../constant/ColorConstants.dart';
+import '../models/CartypeResponse.dart';
 
 class CarReservationWidget extends StatefulWidget {
   @override
@@ -10,7 +15,9 @@ class CarReservationWidget extends StatefulWidget {
 class _CarReservationWidgetState extends State<CarReservationWidget> {
   List<DateTime> _selectedDates = [];
   String _selectedCar = 'Car A'; // Default car selection
-
+  List<Cartype> models = [];
+  Cartype? selectedModel;
+  String selectedValue = "";
   void _onDaySelected(DateTime selectedDate, bool value) {
     setState(() {
       if (value) {
@@ -37,14 +44,59 @@ class _CarReservationWidgetState extends State<CarReservationWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Car Reservation'),
+        leading: new IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon:Icon(Icons.arrow_back_ios,color: Colors.black,),
+        ),
+        title: Text(
+          "Car Reservation",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
       ),
+
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      child:DropdownButtonFormField<Cartype>(
+                         value: null,
+                        onChanged: (newValue) {
+                          setState(() {
+                           // selectedModel = newValue!;
+                          });
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Select an Car Registation No',
+                          filled: true,
+                          fillColor: Color(0xFFE4E6F1),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                            borderSide: BorderSide(color: Colors.blue, width: 2),
+                          ),
+                        ),
+                        items:models
+                            .map<DropdownMenuItem<Cartype>>((Cartype value) {
+                          return DropdownMenuItem<Cartype>(
+                            value: value,
+                            child: Text(value.CarName),
+                          );
+                        }).toList(),
+                      )
+                  ),
+                ],
+              ),
+
               // Custom Calendar
               CustomCalendar(
                 onDaySelected: _onDaySelected,
@@ -72,6 +124,9 @@ class _CarReservationWidgetState extends State<CarReservationWidget> {
 
               // Submit Button
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: ColorConstants.darkBlueTheme, // Change the background color here
+                ),
                 onPressed: _onSubmit,
                 child: Text('Submit'),
               ),
@@ -86,7 +141,6 @@ class _CarReservationWidgetState extends State<CarReservationWidget> {
 class CustomCalendar extends StatelessWidget {
   final Function(DateTime, bool) onDaySelected;
   final List<DateTime> selectedDates;
-
   CustomCalendar({required this.onDaySelected, required this.selectedDates});
 
   @override
@@ -96,19 +150,20 @@ class CustomCalendar extends StatelessWidget {
         final isSelected = selectedDates.contains(date);
         onDaySelected(date, !isSelected);
       },
+      headerTextStyle: TextStyle(color: ColorConstants.darkBlueTheme),
+      leftButtonIcon: Icon(Icons.navigate_before,color: ColorConstants.darkBlueTheme,),
+      rightButtonIcon: Icon(Icons.navigate_next,color: ColorConstants.darkBlueTheme,),
+      weekdayTextStyle: TextStyle(color: ColorConstants.darkBlueTheme),
       thisMonthDayBorderColor: Colors.grey,
-      selectedDateTime: selectedDates.isNotEmpty ? selectedDates[0] : null,
       daysHaveCircularBorder: false,
       showOnlyCurrentMonthDate: false,
-      weekendTextStyle: TextStyle(color: Colors.red),
+      weekendTextStyle: TextStyle(color: ColorConstants.darkBlueTheme),
       weekFormat: false,
       height:400.0,
       selectedDayBorderColor: Colors.transparent,
       customGridViewPhysics: NeverScrollableScrollPhysics(),
       markedDateShowIcon: true,
       markedDateIconMaxShown: 1,
-      markedDateIconBuilder: (event) {
-      },
     );
   }
 

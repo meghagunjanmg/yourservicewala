@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../constant/ColorConstants.dart';
+
 class Packages extends StatefulWidget {
   @override
   _PackagesState createState() => _PackagesState();
@@ -102,6 +104,9 @@ class _PackagesState extends State<Packages> {
                               margin: EdgeInsets.all(16),
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: ColorConstants.darkBlueTheme, // Change the background color here
+                                ),
                                 onPressed: () {
                                   // Add your payment logic here
                                 },

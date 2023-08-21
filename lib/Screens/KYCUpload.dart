@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../constant/ColorConstants.dart';
+
 class KYCUpload extends StatefulWidget {
   @override
   _KYCUploadState createState() => _KYCUploadState();
@@ -84,6 +86,9 @@ class _KYCUploadState extends State<KYCUpload> {
             _buildImageSection('PAN Card', _panCard, ImageType.panCard),
             _buildImageSection('Profile Picture', _profilePic, ImageType.profilePic),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.darkBlueTheme, // Change the background color here
+              ),
               onPressed: _onSubmit,
               child: Text('Submit'),
             ),

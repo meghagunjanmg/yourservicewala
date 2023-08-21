@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yourservicewala/models/ProfileResponse.dart';
 
 import '../constant/APIs.dart';
+import '../constant/ColorConstants.dart';
 import '../constant/CustomWidget.dart';
 import '../models/ProfileRequest.dart';
 
@@ -112,20 +112,23 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               ),
             ),
 
-            customWidget.buildTextField('Your Name', _nameController, Icons.person),
-            customWidget.buildTextField('Father/Husband', _fatherHusbandController, Icons.person_outline),
-            customWidget.buildTextField('Address_1', _address1Controller, Icons.home),
-            customWidget.buildTextField('State', _stateController, Icons.location_on),
-            customWidget.buildTextField('Pincode', _pincodeController, Icons.pin_drop),
-            customWidget.buildTextField('Email ID', _emailController, Icons.email),
-            customWidget.buildTextField('Your Package', _packageController, Icons.card_membership),
-            customWidget.buildTextField('Gender', _genderController, Icons.people),
-            customWidget.buildTextField('City', _cityController, Icons.location_city),
-            customWidget.buildTextField('Mobile', _mobileController, Icons.phone, isRequired: true),
-            customWidget.buildTextField('Alternate Mobile', _alternateMobileController, Icons.phone_android),
-            customWidget.buildTextField('Birth Date (Real)', _birthDateController, Icons.cake),
+            customWidget.buildTextField(context,'Your Name', _nameController, Icons.person),
+            customWidget.buildTextField(context,'Father/Husband', _fatherHusbandController, Icons.person_outline),
+            customWidget.buildTextField(context,'Address_1', _address1Controller, Icons.home),
+            customWidget.buildTextField(context,'State', _stateController, Icons.location_on),
+            customWidget.buildTextField(context,'Pincode', _pincodeController, Icons.pin_drop),
+            customWidget.buildTextField(context,'Email ID', _emailController, Icons.email),
+            customWidget.buildTextField(context,'Your Package', _packageController, Icons.card_membership),
+            customWidget.buildTextField(context,'Gender', _genderController, Icons.people),
+            customWidget.buildTextField(context,'City', _cityController, Icons.location_city),
+            customWidget.buildTextField(context,'Mobile', _mobileController, Icons.phone, isRequired: true),
+            customWidget.buildTextField(context,'Alternate Mobile', _alternateMobileController, Icons.phone_android),
+            customWidget.buildTextField(context,'Birth Date (Real)', _birthDateController, Icons.cake),
             SizedBox(height: 16),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.darkBlueTheme, // Change the background color here
+              ),
               onPressed: _onSubmit,
               child: Text('Save'),
             ),

@@ -3,14 +3,19 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yourservicewala/Screens/ReferalsDetail.dart';
 import 'package:yourservicewala/Screens/VerifyOtpScreen.dart';
+import 'package:yourservicewala/models/CartypeResponse.dart';
 import 'package:yourservicewala/models/ResponseModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:yourservicewala/models/SignUpRequestModel.dart';
 
 import '../Screens/HomeScreen.dart';
+import '../models/CarRequest.dart';
 import '../models/ProfileRequest.dart';
 import '../models/ProfileResponse.dart';
+import '../models/Referaldetails.dart';
+import 'CustomDialog.dart';
 
 class API {
      static String HeaderUserId = "11";
@@ -275,6 +280,118 @@ class API {
        print('Response title: '+responseModel.description.toString());
 
        return responseModel.description.toString();
+     }
+
+     static Future<Referaldetails> GetReferalDetails(BuildContext context,String PhoneNumber)  async {
+
+       var bod = jsonEncode({
+         "MobileNo":PhoneNumber
+       });
+
+       Map<String,String> hed = new Map();
+       hed.putIfAbsent("UserId", () => HeaderUserId);
+       hed.putIfAbsent("Passw", () => HeaderPassword);
+       hed.putIfAbsent("Content-Type", () => "application/json");
+
+
+       var url = Uri.https("yourservicewala.in", "/testingapi/DirectDetails");
+       var response = await http.post( url, body: bod, headers: hed );
+
+       print('Response status: ${response.statusCode}');
+       print('Response body: ${response.body}');
+
+
+       String jsonObjectStr = response.body.toString();
+
+       Map<String, dynamic> jsonObject = json.decode(jsonObjectStr);
+       Referaldetails responseModel = Referaldetails.fromJson(jsonObject);
+
+       print("REFERAL DATAS "+responseModel.allresults.toString());
+
+       return responseModel;
+     }
+
+     static Future<CartypeResponse> GetCarType(BuildContext context)  async {
+
+       Map<String,String> hed = new Map();
+       hed.putIfAbsent("UserId", () => HeaderUserId);
+       hed.putIfAbsent("Passw", () => HeaderPassword);
+       hed.putIfAbsent("Content-Type", () => "application/json");
+
+
+       var url = Uri.https("yourservicewala.in", "/testingapi/CarTypeDetails");
+       var response = await http.get( url, headers: hed );
+
+       print('Response status: ${response.statusCode}');
+       print('Response body: ${response.body}');
+
+
+       String jsonObjectStr = response.body.toString();
+
+       Map<String, dynamic> jsonObject = json.decode(jsonObjectStr);
+       CartypeResponse responseModel = CartypeResponse.fromJson(jsonObject);
+
+       return responseModel;
+     }
+
+
+     static void AddCar(BuildContext context,CarRequest request)  async {
+
+       var bod = jsonEncode({
+         "MobileNo": request.MobileNo,
+         "Carname": request.Carname,
+         "Modelno": request.Modelno,
+         "modelyear":request.modelyear,
+         "CarNumber":request.CarNumber,
+         "Registrationno":request.Registrationno,
+         "InsuranceDate":request.InsuranceDate,
+         "ragistrationDate":request.ragistrationDate,
+         "CarType":request.CarType
+       });
+
+       Map<String,String> hed = new Map();
+       hed.putIfAbsent("UserId", () => HeaderUserId);
+       hed.putIfAbsent("Passw", () => HeaderPassword);
+
+       hed.putIfAbsent("Content-Type", () => "application/json");
+
+
+       var url = Uri.https("yourservicewala.in", "/testingapi/InsertCar");
+       var response = await http.post( url, body: bod, headers: hed );
+
+       print('Response status: ${response.statusCode}');
+       print('Response body: ${response.body}');
+
+
+       String jsonObjectStr = response.body.toString();
+
+       Map<String, dynamic> jsonObject = json.decode(jsonObjectStr);
+       ResponseModel responseModel = ResponseModel.fromJson(jsonObject);
+       print('Response title: '+responseModel.status.toString());
+       print('Response title: '+responseModel.description.toString());
+
+       if(responseModel.status==1){
+         showDialog(
+           context: context,
+           builder: (BuildContext context) {
+             return CustomDialog(
+               icon:'assets/deletetick.svg', // Replace with your SVG asset path
+               text: responseModel.description.toString(),
+             );
+           },
+         );
+       }
+       else{
+         Fluttertoast.showToast(
+             msg: responseModel.description.toString(),
+             toastLength: Toast.LENGTH_SHORT,
+             gravity: ToastGravity.CENTER,
+             timeInSecForIosWeb: 1,
+             backgroundColor: Colors.blue,
+             textColor: Colors.white,
+             fontSize: 16.0
+         );
+       }
      }
 
 }

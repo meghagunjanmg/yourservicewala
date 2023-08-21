@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yourservicewala/Screens/LoginScreen.dart';
 
+import '../constant/ColorConstants.dart';
+
 class ForgetPasswordScreen extends StatefulWidget {
   @override
   _ForgetPasswordScreenState createState() => _ForgetPasswordScreenState();
@@ -87,6 +89,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 );}));
                     },
                     child: Text('Send'),
+                    style: ElevatedButton.styleFrom(
+                      primary: ColorConstants.darkBlueTheme, // Change the background color here
+                    ),
                   ),
                 ),
                 SizedBox(height: 16),

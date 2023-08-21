@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:yourservicewala/Screens/SignupScreen.dart';
 import 'package:yourservicewala/Screens/SignupSuccess.dart';
 
+import '../constant/ColorConstants.dart';
+
 class VerifyOtpScreen extends StatefulWidget {
   @override
   _VerifyOtpScreenState createState() => _VerifyOtpScreenState();
@@ -126,6 +128,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             ),
             SizedBox(height: 16),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.darkBlueTheme, // Change the background color here
+              ),
               onPressed: _verifyOtp,
               child: Text('Verify'),
             ),

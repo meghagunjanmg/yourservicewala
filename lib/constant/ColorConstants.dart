@@ -18,7 +18,7 @@ class ColorConstants {
 
 
   static Color lightBlueTheme = hexToColor('#03a4d0');
-  static Color darkBlueTheme = hexToColor('#145da1');
+  static Color darkBlueTheme = hexToColor('#002c80');
   static Color textFieldBgTheme = hexToColor('#f2f2f2');
 
 }

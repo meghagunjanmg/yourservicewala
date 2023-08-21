@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:yourservicewala/Screens/Packages.dart';
 
+import '../constant/ColorConstants.dart';
 import 'HomeScreen.dart';
 
 class SignupSuccess extends StatefulWidget {
@@ -50,6 +51,9 @@ class _SignupSuccessState extends State<SignupSuccess> {
                       width: MediaQuery.of(context).size.width,
 
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: ColorConstants.darkBlueTheme, // Change the background color here
+                        ),
                         onPressed: () {
                           // Add your navigation logic here to go back
                           Navigator.pop(context);
@@ -62,6 +66,9 @@ class _SignupSuccessState extends State<SignupSuccess> {
                   width: MediaQuery.of(context).size.width,
 
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: ColorConstants.darkBlueTheme, // Change the background color here
+                    ),
                     onPressed: () {
                       // Add your navigation logic here to go back
                 Navigator.push(
@@ -79,6 +86,7 @@ class _SignupSuccessState extends State<SignupSuccess> {
                     );}));
                   },
                     child: Text('Packages'),
+
                   ),
                 ),
                   ],

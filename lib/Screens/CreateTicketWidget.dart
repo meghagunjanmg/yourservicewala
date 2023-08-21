@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import '../constant/ColorConstants.dart';
+
 
 
 class CreateTicketWidget extends StatefulWidget {
@@ -73,6 +75,9 @@ class _CreateTicketWidgetState extends State<CreateTicketWidget> {
                 Text('Attach Car Photo (800X600)'),
                 SizedBox(width: 8),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstants.darkBlueTheme, // Change the background color here
+                  ),
                   onPressed: _pickImage,
                   child: Text('Choose Photo'),
                 ),
@@ -86,6 +91,9 @@ class _CreateTicketWidgetState extends State<CreateTicketWidget> {
             SizedBox(height: 16),
 
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.darkBlueTheme, // Change the background color here
+              ),
               onPressed: _onSubmit,
               child: Text('Submit'),
             ),

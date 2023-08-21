@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yourservicewala/models/CarRequest.dart';
 import 'dart:io';
 
+import '../constant/APIs.dart';
+import '../constant/ColorConstants.dart';
+import '../constant/CustomDialog.dart';
 import '../constant/CustomWidget.dart';
+import '../models/CartypeResponse.dart';
 
 class AddCarWidget extends StatefulWidget {
   @override
@@ -17,7 +24,6 @@ class _AddCarWidgetState extends State<AddCarWidget> {
   TextEditingController _modelYearController = TextEditingController();
   TextEditingController _carNumberController = TextEditingController();
   TextEditingController _registrationNumberController = TextEditingController();
-  TextEditingController _carTypeController = TextEditingController();
   TextEditingController _registrationDateController = TextEditingController();
   TextEditingController _insuranceDateController = TextEditingController();
   File? _selectedImage;
@@ -28,6 +34,24 @@ class _AddCarWidgetState extends State<AddCarWidget> {
       _selectedImage = File(pickedImage?.path ?? "");
     });
   }
+  List<Cartype> models = [];
+  Cartype? selectedModel;
+  String selectedValue = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getAPiData();
+  }
+
+  getAPiData() async {
+    var response = await API.GetCarType(context);
+    setState(() {
+        models  = response.Cartypes;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +76,58 @@ class _AddCarWidgetState extends State<AddCarWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            customWidget.buildTextField('Car Name', _carNameController, Icons.directions_car),
-            customWidget.buildTextField('Car Model', _carModelController, Icons.car_repair),
-            customWidget.buildTextField('Model Year', _modelYearController, Icons.calendar_today),
-            customWidget.buildTextField('Car Number', _carNumberController, Icons.format_list_numbered),
-            customWidget.buildTextField('Registration Number', _registrationNumberController, Icons.confirmation_number),
-            customWidget.buildTextField('Car Type', _carTypeController, Icons.category),
-            customWidget.buildTextField('Registration Date (DD/MM/YYYY)', _registrationDateController, Icons.date_range),
-            customWidget.buildTextField('Insurance Date (DD/MM/YYYY)', _insuranceDateController, Icons.calendar_today),
+            customWidget.buildTextField(context,'Car Name', _carNameController, Icons.directions_car),
+            customWidget.buildTextField(context,'Car Model', _carModelController, Icons.car_repair),
+            customWidget.buildTextField(context,'Model Year', _modelYearController, Icons.calendar_today),
+            customWidget.buildTextField(context,'Car Number', _carNumberController, Icons.format_list_numbered),
+
+            customWidget.buildTextField(context,'Registration Number', _registrationNumberController, Icons.confirmation_number),
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 8),
+        child:DropdownButtonFormField<Cartype>(
+          value: selectedModel,
+          onChanged: (newValue) {
+            setState(() {
+              selectedModel = newValue!;
+            });
+          },
+          decoration: InputDecoration(
+            labelText: 'Select an Car Type',
+            filled: true,
+            fillColor: Color(0xFFE4E6F1),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              borderSide: BorderSide(color: Colors.blue, width: 2),
+            ),
+          ),
+          items:models
+              .map<DropdownMenuItem<Cartype>>((Cartype value) {
+            return DropdownMenuItem<Cartype>(
+              value: value,
+              child: Text(value.CarName),
+            );
+          }).toList(),
+        )
+      ),
+              ],
+            ),
+
+              customWidget.buildTextField(context,'Registration Date (DD/MM/YYYY)', _registrationDateController, Icons.date_range),
+              customWidget.buildTextField(context,'Insurance Date (DD/MM/YYYY)', _insuranceDateController, Icons.date_range),
+
             SizedBox(height: 16),
             Row(
               children: [
                 Text('Attach Car Photo (800X600)'),
                 SizedBox(width: 8),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstants.darkBlueTheme, // Change the background color here
+                  ),
                   onPressed: _pickImage,
                   child: Text('Choose Photo'),
                 ),
@@ -77,6 +139,9 @@ class _AddCarWidgetState extends State<AddCarWidget> {
                 : Container(),
             SizedBox(height: 16),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorConstants.darkBlueTheme, // Change the background color here
+              ),
               onPressed: _onSave,
               child: Text('Save'),
             ),
@@ -87,7 +152,7 @@ class _AddCarWidgetState extends State<AddCarWidget> {
   }
 
 
-  void _onSave() {
+  Future<void> _onSave() async {
     // Handle the form submission here
     // You can access the entered values using the controller variables.
     print('Car Name: ${_carNameController.text}');
@@ -95,9 +160,30 @@ class _AddCarWidgetState extends State<AddCarWidget> {
     print('Model Year: ${_modelYearController.text}');
     print('Car Number: ${_carNumberController.text}');
     print('Registration Number: ${_registrationNumberController.text}');
-    print('Car Type: ${_carTypeController.text}');
+    print('Car Type: ${selectedModel!.Sno}');
     print('Registration Date: ${_registrationDateController.text}');
     print('Insurance Date: ${_insuranceDateController.text}');
     print('Car Image: $_selectedImage');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? phoneNumber = await prefs.getString("userMobileNo");
+
+
+    CarRequest request =  CarRequest(MobileNo: phoneNumber!,
+        Carname: _carNameController.text.toString(),
+        Modelno: _carModelController.text.toString(),
+        modelyear: _modelYearController.text.toString(),
+        CarNumber: _carNumberController.text.toString(),
+        Registrationno: _registrationNumberController.text.toString(),
+        InsuranceDate: _insuranceDateController.text.toString(),
+        ragistrationDate: _registrationDateController.text.toString(),
+        CarType: selectedModel!.Sno.toString());
+
+
+    API.AddCar(context, request);
+
+
   }
+
+
+
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../constant/ColorConstants.dart';
+
 
 class ViewTicketWidget extends StatefulWidget {
   @override
@@ -34,8 +36,20 @@ class _ViewTicketWidgetState extends State<ViewTicketWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('View Ticket'),
+        leading: new IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon:Icon(Icons.arrow_back_ios,color: Colors.black,),
+        ),
+        title: Text(
+          "View Ticket",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -46,6 +60,9 @@ class _ViewTicketWidgetState extends State<ViewTicketWidget> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: ColorConstants.darkBlueTheme, // Change the background color here
+                      ),
                       onPressed: _onCopy,
                       child: Text('Copy'),
                     ),
@@ -53,6 +70,9 @@ class _ViewTicketWidgetState extends State<ViewTicketWidget> {
                   SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: ColorConstants.darkBlueTheme, // Change the background color here
+                      ),
                       onPressed: _onDownloadExcel,
                       child: Text('Excel'),
                     ),
@@ -68,6 +88,9 @@ class _ViewTicketWidgetState extends State<ViewTicketWidget> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: ColorConstants.darkBlueTheme, // Change the background color here
+                      ),
                       onPressed: _onDownloadPDF,
                       child: Text('PDF'),
                     ),
@@ -75,6 +98,9 @@ class _ViewTicketWidgetState extends State<ViewTicketWidget> {
                   SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: ColorConstants.darkBlueTheme, // Change the background color here
+                      ),
                       onPressed: _onPrint,
                       child: Text('Print'),
                     ),

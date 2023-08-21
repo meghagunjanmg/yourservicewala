@@ -317,6 +317,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: MediaQuery.of(context).size.width,
 
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstants.darkBlueTheme, // Change the background color here
+                  ),
                   onPressed: () {
                     // Add your signup logic here
                       if(agreeToTerms==true){

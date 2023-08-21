@@ -133,6 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: ColorConstants.darkBlueTheme, // Change the background color here
+                ),
                 onPressed: () {
                   // Add your login logic here
                   API.LoginAPI(context,phoneNumberController.text, passwordController.text);
