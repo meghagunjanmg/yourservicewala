@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yourservicewala/Screens/ReferalsDetail.dart';
 import 'package:yourservicewala/Screens/VerifyOtpScreen.dart';
+import 'package:yourservicewala/models/BrandType.dart';
 import 'package:yourservicewala/models/CartypeResponse.dart';
 import 'package:yourservicewala/models/ResponseModel.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,7 @@ import 'package:yourservicewala/models/SignUpRequestModel.dart';
 
 import '../Screens/HomeScreen.dart';
 import '../models/CarRequest.dart';
+import '../models/CarsDetail.dart';
 import '../models/ProfileRequest.dart';
 import '../models/ProfileResponse.dart';
 import '../models/Referaldetails.dart';
@@ -334,15 +336,36 @@ class API {
        return responseModel;
      }
 
+     static Future<BrandType> GetBrandType(BuildContext context)  async {
+
+       Map<String,String> hed = new Map();
+       hed.putIfAbsent("UserId", () => HeaderUserId);
+       hed.putIfAbsent("Passw", () => HeaderPassword);
+       hed.putIfAbsent("Content-Type", () => "application/json");
+
+
+       var url = Uri.https("yourservicewala.in", "/testingapi/BrandDetailsList");
+       var response = await http.get( url, headers: hed );
+
+       print('Response status: ${response.statusCode}');
+       print('Response body: ${response.body}');
+
+
+       String jsonObjectStr = response.body.toString();
+
+       Map<String, dynamic> jsonObject = json.decode(jsonObjectStr);
+       BrandType responseModel = BrandType.fromJson(jsonObject);
+
+       return responseModel;
+     }
+
 
      static void AddCar(BuildContext context,CarRequest request)  async {
 
        var bod = jsonEncode({
          "MobileNo": request.MobileNo,
-         "Carname": request.Carname,
+         "Brand_id": request.BrandId,
          "Modelno": request.Modelno,
-         "modelyear":request.modelyear,
-         "CarNumber":request.CarNumber,
          "Registrationno":request.Registrationno,
          "InsuranceDate":request.InsuranceDate,
          "ragistrationDate":request.ragistrationDate,
@@ -392,6 +415,34 @@ class API {
              fontSize: 16.0
          );
        }
+     }
+
+
+     static Future<Carlist> GetCarlist(BuildContext context)  async {
+
+       Map<String,String> hed = new Map();
+       hed.putIfAbsent("UserId", () => HeaderUserId);
+       hed.putIfAbsent("Passw", () => HeaderPassword);
+       hed.putIfAbsent("Content-Type", () => "application/json");
+       final SharedPreferences prefs = await SharedPreferences.getInstance();
+       String? phone = await prefs.getString('userMobileNo');
+       var bod = jsonEncode({
+         "Mobileno":phone,
+       });
+
+       var url = Uri.https("yourservicewala.in", "/testingapi/CardetailsForUser");
+       var response = await http.post( url, headers: hed, body: bod);
+
+       print('Response status: ${response.statusCode}');
+       print('Response body: ${response.body}');
+
+
+       String jsonObjectStr = response.body.toString();
+
+       Map<String, dynamic> jsonObject = json.decode(jsonObjectStr);
+       Carlist responseModel = Carlist.fromJson(jsonObject);
+
+       return responseModel;
      }
 
 }

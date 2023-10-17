@@ -9,6 +9,7 @@ import '../constant/APIs.dart';
 import '../constant/ColorConstants.dart';
 import '../constant/CustomDialog.dart';
 import '../constant/CustomWidget.dart';
+import '../models/BrandType.dart';
 import '../models/CartypeResponse.dart';
 
 class AddCarWidget extends StatefulWidget {
@@ -35,7 +36,9 @@ class _AddCarWidgetState extends State<AddCarWidget> {
     });
   }
   List<Cartype> models = [];
+  List<Brands> models1 = [];
   Cartype? selectedModel;
+  Brands? selectedBrand;
   String selectedValue = "";
 
   @override
@@ -47,8 +50,10 @@ class _AddCarWidgetState extends State<AddCarWidget> {
 
   getAPiData() async {
     var response = await API.GetCarType(context);
+    var response1 = await API.GetBrandType(context);
     setState(() {
         models  = response.Cartypes;
+        models1 = response1.Brand;
     });
   }
 
@@ -76,48 +81,80 @@ class _AddCarWidgetState extends State<AddCarWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            customWidget.buildTextField(context,'Car Name', _carNameController, Icons.directions_car),
-            customWidget.buildTextField(context,'Car Model', _carModelController, Icons.car_repair),
-            customWidget.buildTextField(context,'Model Year', _modelYearController, Icons.calendar_today),
-            customWidget.buildTextField(context,'Car Number', _carNumberController, Icons.format_list_numbered),
-
-            customWidget.buildTextField(context,'Registration Number', _registrationNumberController, Icons.confirmation_number),
-
+          //  customWidget.buildTextField(context,'Car Name', _carNameController, Icons.directions_car),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-      Container(
-        margin: EdgeInsets.symmetric(vertical: 8),
-        child:DropdownButtonFormField<Cartype>(
-          value: selectedModel,
-          onChanged: (newValue) {
-            setState(() {
-              selectedModel = newValue!;
-            });
-          },
-          decoration: InputDecoration(
-            labelText: 'Select an Car Type',
-            filled: true,
-            fillColor: Color(0xFFE4E6F1),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              borderSide: BorderSide(color: Colors.blue, width: 2),
+                Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child:DropdownButtonFormField<Cartype>(
+                      value: selectedModel,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedModel = newValue!;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Select an Car Type',
+                        filled: true,
+                        fillColor: Color(0xFFE4E6F1),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                      ),
+                      items:models
+                          .map<DropdownMenuItem<Cartype>>((Cartype value) {
+                        return DropdownMenuItem<Cartype>(
+                          value: value,
+                          child: Text(value.CarName),
+                        );
+                      }).toList(),
+                    )
+                ),
+              ],
             ),
-          ),
-          items:models
-              .map<DropdownMenuItem<Cartype>>((Cartype value) {
-            return DropdownMenuItem<Cartype>(
-              value: value,
-              child: Text(value.CarName),
-            );
-          }).toList(),
-        )
-      ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child:DropdownButtonFormField<Brands>(
+                      value: selectedBrand,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedBrand = newValue!;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Select an Brand Name',
+                        filled: true,
+                        fillColor: Color(0xFFE4E6F1),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                          borderSide: BorderSide(color: Colors.blue, width: 2),
+                        ),
+                      ),
+                      items:models1
+                          .map<DropdownMenuItem<Brands>>((Brands value) {
+                        return DropdownMenuItem<Brands>(
+                          value: value,
+                          child: Text(value.Name),
+                        );
+                      }).toList(),
+                    )
+                ),
               ],
             ),
 
-              customWidget.buildTextField(context,'Registration Date (DD/MM/YYYY)', _registrationDateController, Icons.date_range),
-              customWidget.buildTextField(context,'Insurance Date (DD/MM/YYYY)', _insuranceDateController, Icons.date_range),
+
+            customWidget.buildTextField(context,'Car Model', _carModelController, Icons.car_repair),
+         //   customWidget.buildTextField(context,'Model Year', _modelYearController, Icons.calendar_today),
+       //     customWidget.buildTextField(context,'Car Number', _carNumberController, Icons.format_list_numbered),
+
+            customWidget.buildTextField(context,'Registration Number', _registrationNumberController, Icons.confirmation_number),
+            customWidget.buildTextField(context,'Registration Date (DD/MM/YYYY)', _registrationDateController, Icons.date_range),
+            customWidget.buildTextField(context,'Insurance Date (DD/MM/YYYY)', _insuranceDateController, Icons.date_range),
 
             SizedBox(height: 16),
             Row(
@@ -169,17 +206,16 @@ class _AddCarWidgetState extends State<AddCarWidget> {
 
 
     CarRequest request =  CarRequest(MobileNo: phoneNumber!,
-        Carname: _carNameController.text.toString(),
-        Modelno: _carModelController.text.toString(),
-        modelyear: _modelYearController.text.toString(),
-        CarNumber: _carNumberController.text.toString(),
-        Registrationno: _registrationNumberController.text.toString(),
-        InsuranceDate: _insuranceDateController.text.toString(),
-        ragistrationDate: _registrationDateController.text.toString(),
+        BrandId: selectedBrand!.Sno,
+        Modelno: _carModelController.text,
+        Registrationno: _registrationNumberController.text,
+        InsuranceDate: _insuranceDateController.text,
+        ragistrationDate: _registrationDateController.text,
         CarType: selectedModel!.Sno.toString());
 
 
     API.AddCar(context, request);
+
 
 
   }

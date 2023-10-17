@@ -56,7 +56,6 @@ class CustomWidget {
         return Theme(
           data: ThemeData.light().copyWith(
             primaryColor: ColorConstants.darkBlueTheme, // Change header color
-            accentColor: ColorConstants.darkBlueTheme, // Change selected date color
             buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
@@ -67,7 +66,7 @@ class CustomWidget {
 
     if (picked != null && picked != _selectedDate) {
       _selectedDate = picked;
-      final formattedDate = DateFormat('dd-MM-yyyy').format(
+      final formattedDate = DateFormat('MM/dd/yyyy').format(
           picked); // Customize the format
 
       Controller.text = formattedDate.toString(); // Format this as needed

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:yourservicewala/Screens/HomeScreen.dart';
 import 'package:yourservicewala/constant/ColorConstants.dart';
 
 class CustomDialog extends StatelessWidget {
@@ -28,6 +29,7 @@ class CustomDialog extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pop();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
             },
             child: Text('Back',style: TextStyle(color: ColorConstants.darkBlueTheme,fontSize: 18)),
             style: ElevatedButton.styleFrom(

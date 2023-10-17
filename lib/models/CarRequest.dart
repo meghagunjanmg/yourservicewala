@@ -1,20 +1,16 @@
 class CarRequest {
   CarRequest({
     required this.MobileNo,
-    required this.Carname,
+    required this.BrandId,
     required this.Modelno,
-    required this.modelyear,
-    required this.CarNumber,
     required this.Registrationno,
     required this.InsuranceDate,
     required this.ragistrationDate,
     required this.CarType,
   });
   late final String MobileNo;
-  late final String Carname;
+  late final int BrandId;
   late final String Modelno;
-  late final String modelyear;
-  late final String CarNumber;
   late final String Registrationno;
   late final String InsuranceDate;
   late final String ragistrationDate;
@@ -22,10 +18,8 @@ class CarRequest {
 
   CarRequest.fromJson(Map<String, dynamic> json){
     MobileNo = json['MobileNo'];
-    Carname = json['Carname'];
+    BrandId = json['Brand_id'];
     Modelno = json['Modelno'];
-    modelyear = json['modelyear'];
-    CarNumber = json['CarNumber'];
     Registrationno = json['Registrationno'];
     InsuranceDate = json['InsuranceDate'];
     ragistrationDate = json['ragistrationDate'];
@@ -35,10 +29,8 @@ class CarRequest {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['MobileNo'] = MobileNo;
-    _data['Carname'] = Carname;
+    _data['Brand_id'] = BrandId;
     _data['Modelno'] = Modelno;
-    _data['modelyear'] = modelyear;
-    _data['CarNumber'] = CarNumber;
     _data['Registrationno'] = Registrationno;
     _data['InsuranceDate'] = InsuranceDate;
     _data['ragistrationDate'] = ragistrationDate;
